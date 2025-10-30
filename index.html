@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELIOS INNOVATES - Project Work Tracker</title>
+
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --card-bg: rgba(26, 26, 26, 0.7);
+            --accent-green: #00d65c;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(0, 214, 92, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 214, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 80%, rgba(0, 214, 92, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 40% 40%, rgba(0, 214, 92, 0.03) 0%, transparent 30%);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--secondary-bg) 0%, rgba(26, 26, 26, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-green), #00a84a);
+            box-shadow: 0 4px 15px rgba(0, 214, 92, 0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 214, 92, 0.4);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .logo-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary-bg);
+            background: linear-gradient(135deg, var(--accent-green), #00a84a);
+        }
+
+        .logo-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-container:hover .logo-upload-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .upload-icon {
+            font-size: 20px;
+            color: var(--accent-green);
+            margin-bottom: 5px;
+        }
+
+        .upload-text {
+            font-size: 10px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .company-info h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            background: linear-gradient(90deg, var(--text-primary), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .client-info {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 10px;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            min-width: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 214, 92, 0.2);
+            border-color: var(--accent-green);
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-green), #00a84a);
+            color: var(--primary-bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 214, 92, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-green);
+        }
+
+        .btn-editor-pool {
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            color: white;
+        }
+
+        .btn-editor-pool:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.4);
+        }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--accent-green);
+            color: var(--primary-bg);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: var(--secondary-bg);
+            margin: 10% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--accent-green);
+        }
+
+        .editor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .editor-card {
+            background: var(--glass-bg);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .editor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 214, 92, 0.2);
+            border-color: var(--accent-green);
+        }
+
+        .editor-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-green), #00a84a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-bg);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .editor-info {
+            flex: 1;
+        }
+
+        .editor-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .editor-status {
+            font-size: 10px;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+        }
+
+        .no-editors {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .filter-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .filter-select {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(0, 214, 92, 0.1);
+        }
+
+        .filter-select option {
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+        }
+
+        .board-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .board-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+        }
+
+        .kanban-board {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .kanban-column {
+            flex: 1;
+            min-width: 200px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .kanban-column:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .kanban-column.minimized {
+            min-height: auto;
+        }
+
+        .column-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .column-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .column-minimize-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+            padding: 2px;
+            margin-left: 8px;
+        }
+
+        .column-minimize-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .column-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .column-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .column-item-count {
+            background: var(--glass-bg);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .kanban-item {
+            background: var(--glass-bg);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent-green);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .kanban-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-left-width: 4px;
+        }
+
+        .kanban-item.minimized {
+            padding: 8px 12px;
+        }
+
+        .kanban-item.minimized .item-content {
+            display: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .minimize-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+            padding: 2px;
+        }
+
+        .minimize-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .kanban-item h3 {
+            margin-top: 0;
+            word-wrap: break-word;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            flex: 1;
+        }
+
+        .kanban-item p {
+            margin: 4px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .kanban-item p strong {
+            color: var(--text-primary);
+        }
+
+        .status-new { border-left-color: var(--accent-green); }
+        .status-in-progress { border-left-color: #ffc107; }
+        .status-paused { border-left-color: #6c757d; }
+        .status-completed { border-left-color: #dc3545; }
+
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            padding: 30px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0, 214, 92, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent-green);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats-container {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .kanban-board {
+                flex-direction: column;
+            }
+
+            .kanban-column {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .company-info h1 {
+                font-size: 18px;
+            }
+
+            .client-info {
+                font-size: 11px;
+            }
+
+            .btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .board-title {
+                font-size: 18px;
+            }
+
+            .kanban-column h2 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-container" id="logo-container">
+                    <img src="https://via.placeholder.com/50x50/00d65c/0a0a0a?text=H" 
+                         alt="HELIOS INNOVATES Logo" 
+                         class="logo-img"
+                         id="logo-img">
+                    <div class="logo-fallback" id="logo-fallback">H</div>
+                    <div class="logo-upload-overlay" id="logo-upload-overlay">
+                        <i class="fas fa-upload upload-icon"></i>
+                        <div class="upload-text">Click to upload logo</div>
+                    </div>
+                    <input type="file" id="logo-input" accept="image/*" style="display: none;">
+                </div>
+                <div class="company-info">
+                    <h1>HELIOS INNOVATES</h1>
+                    <div class="client-info">Client: Aigfox Originals</div>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-new">0</div>
+                    <div class="stat-label">New</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-in-progress">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-paused">0</div>
+                    <div class="stat-label">Paused</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="stat-completed">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="btn btn-editor-pool" id="editor-pool-btn">
+                    <i class="fas fa-users"></i> Editor Pool
+                    <span class="badge" id="available-count">0</span>
+                </button>
+                <button class="btn btn-secondary" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <a href="https://wa.me/+919562305524?text=Hello%20Abhi,%20I%20need%20help%20with%20the%20project%20status" 
+                   target="_blank" class="btn btn-primary">
+                    <i class="fab fa-whatsapp"></i> Contact Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Editor Pool Modal -->
+    <div id="editor-pool-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-users"></i> Available Editors
+                </h2>
+                <span class="close" id="close-modal">&times;</span>
+            </div>
+            <div id="editor-list-container">
+                <div class="editor-list" id="editor-list">
+                    <!-- Editor cards will be inserted here -->
+                </div>
+                <div class="no-editors" id="no-editors" style="display: none;">
+                    No available editors at the moment.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="controls">
+            <div class="filter-container">
+                <label for="editor-filter" class="filter-label">Filter by Editor:</label>
+                <select id="editor-filter" class="filter-select">
+                    <option value="">All Editors</option>
+                </select>
+            </div>
+        </div>
+
+        <h2 class="board-title">📋 Project Work Tracker</h2>
+
+        <div id="loading-message" class="loading">
+            <div class="spinner"></div>
+            Loading work items...
+        </div>
+
+        <div id="kanban-board" class="kanban-board" style="display: none;">
+            <div class="kanban-column" id="column-new" data-column="New">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>🆕 New</span>
+                        <span class="column-item-count" id="count-new">0</span>
+                    </div>
+                    <button class="column-minimize-btn" data-column="New">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+                <div class="column-content" id="content-new">
+                    <div class="empty-state">No items in this category</div>
+                </div>
+            </div>
+            <div class="kanban-column" id="column-in-progress" data-column="In Progress">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>🚀 In Progress</span>
+                        <span class="column-item-count" id="count-in-progress">0</span>
+                    </div>
+                    <button class="column-minimize-btn" data-column="In Progress">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+                <div class="column-content" id="content-in-progress">
+                    <div class="empty-state">No items in this category</div>
+                </div>
+            </div>
+            <div class="kanban-column" id="column-paused" data-column="Paused">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>⏸️ Paused</span>
+                        <span class="column-item-count" id="count-paused">0</span>
+                    </div>
+                    <button class="column-minimize-btn" data-column="Paused">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+                <div class="column-content" id="content-paused">
+                    <div class="empty-state">No items in this category</div>
+                </div>
+            </div>
+            <div class="kanban-column" id="column-completed" data-column="Completed">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span>✅ Completed</span>
+                        <span class="column-item-count" id="count-completed">0</span>
+                    </div>
+                    <button class="column-minimize-btn" data-column="Completed">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+                <div class="column-content" id="content-completed">
+                    <div class="empty-state">No items in this category</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- CONFIGURATION ---
+        // IMPORTANT: Replace with your Supabase URL and ANON key
+        const SUPABASE_URL = "https://tuihgtktukvutzgecsdv.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1aWhndGt0dWt2dXR6Z2Vjc2R2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTQyMjYsImV4cCI6MjA3NzM5MDIyNn0.JMHVCR7uJbHie02RVRGsxfZhJD2nKa4gakuXhgW_yCU"; // <-- PASTE YOUR ANON KEY HERE
+
+        // --- DOM ELEMENTS ---
+        const board = document.getElementById('kanban-board');
+        const loadingMessage = document.getElementById('loading-message');
+        const editorFilter = document.getElementById('editor-filter');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const editorPoolBtn = document.getElementById('editor-pool-btn');
+        const editorPoolModal = document.getElementById('editor-pool-modal');
+        const closeModal = document.getElementById('close-modal');
+        const editorList = document.getElementById('editor-list');
+        const noEditors = document.getElementById('no-editors');
+        const availableCount = document.getElementById('available-count');
+        
+        // Logo elements
+        const logoContainer = document.getElementById('logo-container');
+        const logoImg = document.getElementById('logo-img');
+        const logoFallback = document.getElementById('logo-fallback');
+        const logoUploadOverlay = document.getElementById('logo-upload-overlay');
+        const logoInput = document.getElementById('logo-input');
+        
+        const columns = {
+            'New': { 
+                element: document.getElementById('column-new'),
+                content: document.getElementById('content-new'),
+                count: document.getElementById('count-new')
+            },
+            'In Progress': { 
+                element: document.getElementById('column-in-progress'),
+                content: document.getElementById('content-in-progress'),
+                count: document.getElementById('count-in-progress')
+            },
+            'Paused': { 
+                element: document.getElementById('column-paused'),
+                content: document.getElementById('content-paused'),
+                count: document.getElementById('count-paused')
+            },
+            'Completed': { 
+                element: document.getElementById('column-completed'),
+                content: document.getElementById('content-completed'),
+                count: document.getElementById('count-completed')
+            }
+        };
+
+        // Store all work items globally
+        let allWorkItems = [];
+        let allEditors = new Set();
+        
+        // Store minimized state for each card and column
+        const minimizedCards = new Set();
+        const minimizedColumns = new Set();
+
+        // --- LOGO UPLOAD FUNCTIONALITY ---
+        logoContainer.addEventListener('click', () => {
+            logoInput.click();
+        });
+
+        logoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    logoImg.src = e.target.result;
+                    logoImg.style.display = 'block';
+                    logoFallback.style.display = 'none';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('heliosLogo', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Load saved logo from localStorage
+        function loadSavedLogo() {
+            const savedLogo = localStorage.getItem('heliosLogo');
+            if (savedLogo) {
+                logoImg.src = savedLogo;
+                logoImg.style.display = 'block';
+                logoFallback.style.display = 'none';
+            }
+        }
+
+        // --- HELPER FUNCTION TO CREATE KANBAN CARDS ---
+        function createKanbanItem(work) {
+            const item = document.createElement('div');
+            item.className = `kanban-item status-${work.status.toLowerCase().replace(' ', '-')}`;
+            item.dataset.workId = work.id || Math.random().toString(36).substr(2, 9);
+            
+            // Check if this card should be minimized
+            if (minimizedCards.has(item.dataset.workId)) {
+                item.classList.add('minimized');
+            }
+            
+            // Create header with title and minimize button
+            const itemHeader = document.createElement('div');
+            itemHeader.className = 'item-header';
+            
+            const workName = document.createElement('h3');
+            workName.textContent = work.work_name;
+            
+            const minimizeBtn = document.createElement('button');
+            minimizeBtn.className = 'minimize-btn';
+            minimizeBtn.innerHTML = item.classList.contains('minimized') 
+                ? '<i class="fas fa-plus"></i>' 
+                : '<i class="fas fa-minus"></i>';
+            minimizeBtn.addEventListener('click', () => toggleMinimize(item, minimizeBtn));
+            
+            itemHeader.appendChild(workName);
+            itemHeader.appendChild(minimizeBtn);
+            
+            // Create content container
+            const itemContent = document.createElement('div');
+            itemContent.className = 'item-content';
+            
+            const editorName = document.createElement('p');
+            editorName.innerHTML = `<strong>Editor:</strong> ${work.editor_username || 'Unassigned'}`;
+
+            itemContent.appendChild(editorName);
+            
+            item.appendChild(itemHeader);
+            item.appendChild(itemContent);
+            
+            return item;
+        }
+
+        // --- TOGGLE MINIMIZE FUNCTION FOR CARDS ---
+        function toggleMinimize(item, button) {
+            const workId = item.dataset.workId;
+            
+            if (item.classList.contains('minimized')) {
+                item.classList.remove('minimized');
+                button.innerHTML = '<i class="fas fa-minus"></i>';
+                minimizedCards.delete(workId);
+            } else {
+                item.classList.add('minimized');
+                button.innerHTML = '<i class="fas fa-plus"></i>';
+                minimizedCards.add(workId);
+            }
+            
+            // Save minimized state to localStorage
+            localStorage.setItem('minimizedCards', JSON.stringify([...minimizedCards]));
+        }
+
+        // --- TOGGLE MINIMIZE FUNCTION FOR COLUMNS ---
+        function toggleColumnMinimize(columnKey) {
+            const column = columns[columnKey];
+            const button = document.querySelector(`.column-minimize-btn[data-column="${columnKey}"]`);
+            
+            if (!column || !button) {
+                console.error('Column or button not found for key:', columnKey);
+                return;
+            }
+            
+            if (minimizedColumns.has(columnKey)) {
+                // Expand column
+                column.content.classList.remove('collapsed');
+                button.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                column.element.classList.remove('minimized');
+                minimizedColumns.delete(columnKey);
+            } else {
+                // Minimize column
+                column.content.classList.add('collapsed');
+                button.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                column.element.classList.add('minimized');
+                minimizedColumns.add(columnKey);
+            }
+            
+            // Save minimized state to localStorage
+            localStorage.setItem('minimizedColumns', JSON.stringify([...minimizedColumns]));
+        }
+
+        // --- LOAD MINIMIZED STATE FROM LOCAL STORAGE ---
+        function loadMinimizedState() {
+            // Load card minimized state
+            const savedCards = localStorage.getItem('minimizedCards');
+            if (savedCards) {
+                const savedIds = JSON.parse(savedCards);
+                savedIds.forEach(id => minimizedCards.add(id));
+            }
+            
+            // Load column minimized state
+            const savedColumns = localStorage.getItem('minimizedColumns');
+            if (savedColumns) {
+                const savedColumnIds = JSON.parse(savedColumns);
+                savedColumnIds.forEach(columnKey => {
+                    minimizedColumns.add(columnKey);
+                    // Apply minimized state immediately
+                    const column = columns[columnKey];
+                    if (column) {
+                        column.content.classList.add('collapsed');
+                        const button = document.querySelector(`.column-minimize-btn[data-column="${columnKey}"]`);
+                        if (button) {
+                            button.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                        }
+                        column.element.classList.add('minimized');
+                    }
+                });
+            }
+        }
+
+        // --- UPDATE STATISTICS ---
+        function updateStatistics(workItems) {
+            const stats = {
+                'New': 0,
+                'In Progress': 0,
+                'Paused': 0,
+                'Completed': 0
+            };
+            
+            workItems.forEach(item => {
+                if (stats.hasOwnProperty(item.status)) {
+                    stats[item.status]++;
+                }
+            });
+            
+            // Update header stats
+            document.getElementById('stat-new').textContent = stats['New'];
+            document.getElementById('stat-in-progress').textContent = stats['In Progress'];
+            document.getElementById('stat-paused').textContent = stats['Paused'];
+            document.getElementById('stat-completed').textContent = stats['Completed'];
+            
+            // Update column counts
+            columns['New'].count.textContent = stats['New'];
+            columns['In Progress'].count.textContent = stats['In Progress'];
+            columns['Paused'].count.textContent = stats['Paused'];
+            columns['Completed'].count.textContent = stats['Completed'];
+        }
+
+        // --- UPDATE EDITOR FILTER OPTIONS ---
+        function updateEditorFilter(workItems) {
+            const editors = new Set();
+            workItems.forEach(item => {
+                if (item.editor_username) {
+                    editors.add(item.editor_username);
+                }
+            });
+            
+            // Store current selection
+            const currentSelection = editorFilter.value;
+            
+            // Clear existing options except the first one
+            while (editorFilter.options.length > 1) {
+                editorFilter.remove(1);
+            }
+            
+            // Add new options
+            Array.from(editors).sort().forEach(editor => {
+                const option = document.createElement('option');
+                option.value = editor;
+                option.textContent = editor;
+                editorFilter.appendChild(option);
+            });
+            
+            // Restore previous selection if it still exists
+            if (currentSelection && Array.from(editors).includes(currentSelection)) {
+                editorFilter.value = currentSelection;
+            }
+        }
+
+        // --- RENDER KANBAN BOARD ---
+        function renderKanbanBoard(workItems) {
+            // Clear existing items from columns
+            for (const key in columns) {
+                columns[key].content.innerHTML = '';
+                
+                // Add empty state message
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.textContent = 'No items in this category';
+                columns[key].content.appendChild(emptyState);
+            }
+
+            // If no items, show no results message
+            if (workItems.length === 0) {
+                board.innerHTML = '<div class="no-results">No work items found for the selected filter.</div>';
+                return;
+            }
+
+            // Populate columns with new data
+            workItems.forEach(item => {
+                const columnKey = item.status;
+                const column = columns[columnKey];
+                if (column) {
+                    // Remove empty state message if it exists
+                    const emptyState = column.content.querySelector('.empty-state');
+                    if (emptyState) {
+                        emptyState.remove();
+                    }
+                    
+                    column.content.appendChild(createKanbanItem(item));
+                }
+            });
+        }
+
+        // --- GET AVAILABLE EDITORS ---
+        function getAvailableEditors() {
+            // Get all editors from work items
+            const assignedEditors = new Set();
+            const busyEditors = new Set();
+            
+            allWorkItems.forEach(item => {
+                if (item.editor_username) {
+                    assignedEditors.add(item.editor_username);
+                    
+                    // If editor has a project in "In Progress" or "Paused" status, they're busy
+                    if (item.status === 'In Progress' || item.status === 'Paused') {
+                        busyEditors.add(item.editor_username);
+                    }
+                }
+            });
+            
+            // Find editors who are not assigned or not busy
+            const availableEditors = [];
+            
+            // If we have a list of all editors, filter them
+            if (allEditors.size > 0) {
+                allEditors.forEach(editor => {
+                    if (!busyEditors.has(editor)) {
+                        availableEditors.push(editor);
+                    }
+                });
+            } else {
+                // Fallback: Show editors who have only completed projects
+                const editorStatus = {};
+                
+                allWorkItems.forEach(item => {
+                    if (item.editor_username) {
+                        if (!editorStatus[item.editor_username]) {
+                            editorStatus[item.editor_username] = {
+                                hasNew: false,
+                                hasInProgress: false,
+                                hasPaused: false,
+                                hasCompleted: false
+                            };
+                        }
+                        
+                        if (item.status === 'New') editorStatus[item.editor_username].hasNew = true;
+                        if (item.status === 'In Progress') editorStatus[item.editor_username].hasInProgress = true;
+                        if (item.status === 'Paused') editorStatus[item.editor_username].hasPaused = true;
+                        if (item.status === 'Completed') editorStatus[item.editor_username].hasCompleted = true;
+                    }
+                });
+                
+                // Editors with only completed projects or no projects are considered available
+                Object.keys(editorStatus).forEach(editor => {
+                    if (!editorStatus[editor].hasNew && 
+                        !editorStatus[editor].hasInProgress && 
+                        !editorStatus[editor].hasPaused) {
+                        availableEditors.push(editor);
+                    }
+                });
+            }
+            
+            return availableEditors;
+        }
+
+        // --- UPDATE EDITOR POOL ---
+        function updateEditorPool() {
+            const availableEditors = getAvailableEditors();
+            
+            // Update the badge count
+            availableCount.textContent = availableEditors.length;
+            
+            // Clear the editor list
+            editorList.innerHTML = '';
+            
+            if (availableEditors.length === 0) {
+                editorList.style.display = 'none';
+                noEditors.style.display = 'block';
+                return;
+            }
+            
+            editorList.style.display = 'grid';
+            noEditors.style.display = 'none';
+            
+            // Create editor cards
+            availableEditors.forEach(editor => {
+                const editorCard = document.createElement('div');
+                editorCard.className = 'editor-card';
+                
+                const editorAvatar = document.createElement('div');
+                editorAvatar.className = 'editor-avatar';
+                editorAvatar.textContent = editor.charAt(0).toUpperCase();
+                
+                const editorInfo = document.createElement('div');
+                editorInfo.className = 'editor-info';
+                
+                const editorName = document.createElement('div');
+                editorName.className = 'editor-name';
+                editorName.textContent = editor;
+                
+                const editorStatus = document.createElement('div');
+                editorStatus.className = 'editor-status';
+                editorStatus.innerHTML = '<span class="status-dot"></span> Available';
+                
+                editorInfo.appendChild(editorName);
+                editorInfo.appendChild(editorStatus);
+                
+                editorCard.appendChild(editorAvatar);
+                editorCard.appendChild(editorInfo);
+                
+                editorList.appendChild(editorCard);
+            });
+        }
+
+        // --- MAIN FUNCTION TO FETCH AND RENDER DATA ---
+        async function fetchAndDisplayWork() {
+            try {
+                // Show loading state
+                loadingMessage.style.display = 'block';
+                board.style.display = 'none';
+                
+                // Fetch data from Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/work_tracker?order=created_at.desc`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const workItems = await response.json();
+                
+                // Store all work items globally
+                allWorkItems = workItems;
+                
+                // Update statistics (based on all items)
+                updateStatistics(workItems);
+                
+                // Update editor filter
+                updateEditorFilter(workItems);
+                
+                // Update editor pool
+                updateEditorPool();
+                
+                // Filter items based on selected editor
+                const selectedEditor = editorFilter.value;
+                const filteredItems = selectedEditor 
+                    ? workItems.filter(item => item.editor_username === selectedEditor)
+                    : workItems;
+
+                // Render the kanban board with filtered items
+                renderKanbanBoard(filteredItems);
+
+                // Hide loading message and show the board
+                loadingMessage.style.display = 'none';
+                board.style.display = 'flex';
+
+            } catch (error) {
+                console.error("Failed to fetch work items:", error);
+                loadingMessage.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Error loading data. Please check the console.`;
+            }
+        }
+
+        // --- FILTER FUNCTION ---
+        function applyFilter() {
+            const selectedEditor = editorFilter.value;
+            const filteredItems = selectedEditor 
+                ? allWorkItems.filter(item => item.editor_username === selectedEditor)
+                : allWorkItems;
+            
+            renderKanbanBoard(filteredItems);
+        }
+
+        // --- EVENT LISTENERS ---
+        editorFilter.addEventListener('change', applyFilter);
+        refreshBtn.addEventListener('click', fetchAndDisplayWork);
+        
+        // Column minimize buttons
+        document.querySelectorAll('.column-minimize-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const columnKey = button.dataset.column;
+                console.log('Column minimize clicked:', columnKey); // Debug log
+                toggleColumnMinimize(columnKey);
+            });
+        });
+        
+        // Editor Pool Modal
+        editorPoolBtn.addEventListener('click', () => {
+            editorPoolModal.style.display = 'block';
+            updateEditorPool(); // Refresh the editor list when opening the modal
+        });
+        
+        closeModal.addEventListener('click', () => {
+            editorPoolModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === editorPoolModal) {
+                editorPoolModal.style.display = 'none';
+            }
+        });
+
+        // --- INITIALIZE ---
+        // Load saved logo and minimized state from localStorage
+        loadSavedLogo();
+        loadMinimizedState();
+        
+        // Fetch data when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayWork);
+
+        // Optional: Refresh data every 30 seconds to keep it live
+        setInterval(fetchAndDisplayWork, 30000);
+    </script>
+</body>
+</html>
