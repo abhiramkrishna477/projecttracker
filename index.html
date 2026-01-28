@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELIOS INNOVATES - Server 1 Tracker</title>
+    <title>HELIOS INNOVATES - Project Work Tracker</title>
 
     
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -100,7 +100,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none; /* Hidden by default until loaded */
+            display: block;
         }
 
         .logo-fallback {
@@ -164,11 +164,6 @@
         .client-info {
             font-size: 12px;
             color: var(--text-secondary);
-            background: rgba(0, 214, 92, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            display: inline-block;
         }
 
         .header-actions {
@@ -627,10 +622,12 @@
             color: var(--text-primary);
         }
 
+        /* Status Colors */
         .status-new { border-left-color: var(--accent-green); }
-        .status-in-progress { border-left-color: #ffc107; }
-        .status-paused { border-left-color: #6c757d; }
-        .status-completed { border-left-color: #dc3545; }
+        .status-in-progress { border-left-color: #ffc107; } /* Yellow/Orange */
+        .status-paused { border-left-color: #6c757d; } /* Grey - kept for legacy items */
+        .status-early-stage { border-left-color: #00b4d8; } /* Blue - kept for legacy items */
+        .status-completed { border-left-color: #dc3545; } /* Red */
 
         .loading {
             text-align: center;
@@ -742,10 +739,11 @@
                 </div>
                 <div class="company-info">
                     <h1>HELIOS INNOVATES</h1>
-                    <div class="client-info">Server 1 (Guild ID: 1325167137039581244)</div>
+                    <div class="client-info">Client: Aigfox Originals</div>
                 </div>
             </div>
             
+            <!-- Stats Container (Reduced to 3 items) -->
             <div class="stats-container">
                 <div class="stat-item">
                     <div class="stat-value" id="stat-new">0</div>
@@ -753,10 +751,6 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="stat-in-progress">0</div>
-                    <div class="stat-label">Early Stage</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-paused">0</div>
                     <div class="stat-label">In Progress</div>
                 </div>
                 <div class="stat-item">
@@ -811,7 +805,7 @@
             </div>
         </div>
 
-        <h2 class="board-title">📋 Server 1 Project Tracker</h2>
+        <h2 class="board-title">📋 Project Work Tracker</h2>
 
         <div id="loading-message" class="loading">
             <div class="spinner"></div>
@@ -819,6 +813,7 @@
         </div>
 
         <div id="kanban-board" class="kanban-board" style="display: none;">
+            <!-- Column 1: New -->
             <div class="kanban-column" id="column-new" data-column="New">
                 <div class="column-header">
                     <div class="column-title">
@@ -833,10 +828,12 @@
                     <div class="empty-state">No items in this category</div>
                 </div>
             </div>
+
+            <!-- Column 2: In Progress -->
             <div class="kanban-column" id="column-in-progress" data-column="In Progress">
                 <div class="column-header">
                     <div class="column-title">
-                        <span>🚀Early Stage</span>
+                        <span>⏳ In Progress</span>
                         <span class="column-item-count" id="count-in-progress">0</span>
                     </div>
                     <button class="column-minimize-btn" data-column="In Progress">
@@ -847,20 +844,8 @@
                     <div class="empty-state">No items in this category</div>
                 </div>
             </div>
-            <div class="kanban-column" id="column-paused" data-column="Paused">
-                <div class="column-header">
-                    <div class="column-title">
-                        <span>⏳ In Progress</span>
-                        <span class="column-item-count" id="count-paused">0</span>
-                    </div>
-                    <button class="column-minimize-btn" data-column="Paused">
-                        <i class="fas fa-chevron-up"></i>
-                    </button>
-                </div>
-                <div class="column-content" id="content-paused">
-                    <div class="empty-state">No items in this category</div>
-                </div>
-            </div>
+
+            <!-- Column 3: Completed -->
             <div class="kanban-column" id="column-completed" data-column="Completed">
                 <div class="column-header">
                     <div class="column-title">
@@ -882,11 +867,10 @@
         // --- CONFIGURATION ---
         // IMPORTANT: Replace with your Supabase URL and ANON key
         const SUPABASE_URL = "https://tuihgtktukvutzgecsdv.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1aWhndGt0dWt2dXR6Z2Vjc2R2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTQyMjYsImV4cCI6MjA3NzM5MDIyNn0.JMHVCR7uJbHie02RVRGsxfZhJD2nKa4gakuXhgW_yCU"; 
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1aWhndGt0dWt2dXR6Z2Vjc2R2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTQyMjYsImV4cCI6MjA3NzM5MDIyNn0.JMHVCR7uJbHie02RVRGsxfZhJD2nKa4gakuXhgW_yCU";
 
-        // --- CUSTOMIZATION: TARGET GUILD ID ---
-        // This ensures the dashboard only shows data for Server 1
-        const TARGET_GUILD_ID = "1325167137039581244";
+        // TARGET GUILD ID SET TO SERVER 1
+        const TARGET_GUILD_ID = "1325167137039581244"; 
 
         // --- DOM ELEMENTS ---
         const board = document.getElementById('kanban-board');
@@ -907,6 +891,7 @@
         const logoUploadOverlay = document.getElementById('logo-upload-overlay');
         const logoInput = document.getElementById('logo-input');
         
+        // Columns Object (Updated to remove Early Stage)
         const columns = {
             'New': { 
                 element: document.getElementById('column-new'),
@@ -917,11 +902,6 @@
                 element: document.getElementById('column-in-progress'),
                 content: document.getElementById('content-in-progress'),
                 count: document.getElementById('count-in-progress')
-            },
-            'Paused': { 
-                element: document.getElementById('column-paused'),
-                content: document.getElementById('content-paused'),
-                count: document.getElementById('count-paused')
             },
             'Completed': { 
                 element: document.getElementById('column-completed'),
@@ -971,8 +951,11 @@
 
         // --- HELPER FUNCTION TO CREATE KANBAN CARDS ---
         function createKanbanItem(work) {
+            // Normalize status for CSS class (e.g., "In Progress" -> "in-progress")
+            const statusClass = work.status.toLowerCase().replace(' ', '-');
+            
             const item = document.createElement('div');
-            item.className = `kanban-item status-${work.status.toLowerCase().replace(' ', '-')}`;
+            item.className = `kanban-item status-${statusClass}`;
             item.dataset.workId = work.id || Math.random().toString(36).substr(2, 9);
             
             // Check if this card should be minimized
@@ -1003,7 +986,7 @@
             
             const editorName = document.createElement('p');
             editorName.innerHTML = `<strong>Editor:</strong> ${work.editor_username || 'Unassigned'}`;
-            
+
             itemContent.appendChild(editorName);
             
             item.appendChild(itemHeader);
@@ -1092,26 +1075,30 @@
             const stats = {
                 'New': 0,
                 'In Progress': 0,
-                'Paused': 0,
                 'Completed': 0
             };
             
             workItems.forEach(item => {
-                if (stats.hasOwnProperty(item.status)) {
-                    stats[item.status]++;
+                let status = item.status;
+
+                // Map legacy statuses to current columns
+                if (status === 'Paused' || status === 'Early Stage') {
+                    status = 'In Progress';
+                }
+
+                if (stats.hasOwnProperty(status)) {
+                    stats[status]++;
                 }
             });
             
             // Update header stats
             document.getElementById('stat-new').textContent = stats['New'];
             document.getElementById('stat-in-progress').textContent = stats['In Progress'];
-            document.getElementById('stat-paused').textContent = stats['Paused'];
             document.getElementById('stat-completed').textContent = stats['Completed'];
             
             // Update column counts
             columns['New'].count.textContent = stats['New'];
             columns['In Progress'].count.textContent = stats['In Progress'];
-            columns['Paused'].count.textContent = stats['Paused'];
             columns['Completed'].count.textContent = stats['Completed'];
         }
 
@@ -1167,8 +1154,16 @@
 
             // Populate columns with new data
             workItems.forEach(item => {
-                const columnKey = item.status;
+                // Determine column key based on status
+                let columnKey = item.status;
+
+                // Legacy support: If status is 'Paused' or 'Early Stage', put it in 'In Progress'
+                if (item.status === 'Paused' || item.status === 'Early Stage') {
+                    columnKey = 'In Progress';
+                }
+
                 const column = columns[columnKey];
+                
                 if (column) {
                     // Remove empty state message if it exists
                     const emptyState = column.content.querySelector('.empty-state');
@@ -1183,7 +1178,7 @@
 
         // --- GET AVAILABLE EDITORS ---
         function getAvailableEditors() {
-            // Get all editors from work items (which are already filtered by Guild ID)
+            // Get all editors from work items
             const assignedEditors = new Set();
             const busyEditors = new Set();
             
@@ -1191,8 +1186,9 @@
                 if (item.editor_username) {
                     assignedEditors.add(item.editor_username);
                     
-                    // If editor has a project in "In Progress" or "Paused" status, they're busy
-                    if (item.status === 'In Progress' || item.status === 'Paused') {
+                    // If editor has a project in "In Progress", "Paused", or "Early Stage", they're considered busy
+                    const status = item.status;
+                    if (status === 'In Progress' || status === 'Paused' || status === 'Early Stage') {
                         busyEditors.add(item.editor_username);
                     }
                 }
@@ -1219,14 +1215,17 @@
                                 hasNew: false,
                                 hasInProgress: false,
                                 hasPaused: false,
+                                hasEarlyStage: false,
                                 hasCompleted: false
                             };
                         }
                         
-                        if (item.status === 'New') editorStatus[item.editor_username].hasNew = true;
-                        if (item.status === 'In Progress') editorStatus[item.editor_username].hasInProgress = true;
-                        if (item.status === 'Paused') editorStatus[item.editor_username].hasPaused = true;
-                        if (item.status === 'Completed') editorStatus[item.editor_username].hasCompleted = true;
+                        const status = item.status;
+                        if (status === 'New') editorStatus[item.editor_username].hasNew = true;
+                        if (status === 'In Progress') editorStatus[item.editor_username].hasInProgress = true;
+                        if (status === 'Paused') editorStatus[item.editor_username].hasPaused = true;
+                        if (status === 'Early Stage') editorStatus[item.editor_username].hasEarlyStage = true;
+                        if (status === 'Completed') editorStatus[item.editor_username].hasCompleted = true;
                     }
                 });
                 
@@ -1234,7 +1233,8 @@
                 Object.keys(editorStatus).forEach(editor => {
                     if (!editorStatus[editor].hasNew && 
                         !editorStatus[editor].hasInProgress && 
-                        !editorStatus[editor].hasPaused) {
+                        !editorStatus[editor].hasPaused &&
+                        !editorStatus[editor].hasEarlyStage) {
                         availableEditors.push(editor);
                     }
                 });
@@ -1299,18 +1299,17 @@
                 loadingMessage.style.display = 'block';
                 board.style.display = 'none';
                 
-                // Fetch data from Supabase 
-                // CUSTOMIZATION: Added filter for guild_id
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/work_tracker?guild_id=eq.${TARGET_GUILD_ID}&order=created_at.desc`, 
-                    {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'Content-Type': 'application/json'
-                        }
+                // Construct URL with Guild ID filter
+                // Logic: Only fetch items where guild_id matches the specific ID
+                let fetchUrl = `${SUPABASE_URL}/rest/v1/work_tracker?guild_id=eq.${TARGET_GUILD_ID}&order=created_at.desc`;
+
+                // Fetch data from Supabase
+                const response = await fetch(fetchUrl, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
                     }
-                );
+                });
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -1318,7 +1317,7 @@
 
                 const workItems = await response.json();
                 
-                // Store all work items globally (already filtered by Guild ID)
+                // Store all work items globally
                 allWorkItems = workItems;
                 
                 // Update statistics (based on all items)
@@ -1330,7 +1329,7 @@
                 // Update editor pool
                 updateEditorPool();
                 
-                // Filter items based on selected editor (Client-side secondary filter)
+                // Filter items based on selected editor
                 const selectedEditor = editorFilter.value;
                 const filteredItems = selectedEditor 
                     ? workItems.filter(item => item.editor_username === selectedEditor)
